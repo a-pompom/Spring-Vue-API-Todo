@@ -2,6 +2,8 @@ package app.api.todo.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import app.api.todo.entity.Task;
 import app.api.todo.util.QueryBuilder;
 
@@ -10,6 +12,7 @@ import app.api.todo.util.QueryBuilder;
  * @author aoi
  *
  */
+@Component
 public class TaskDao extends BaseDao<Task> {
 	
 	/**
