@@ -38,7 +38,7 @@ public class TodoController {
 		return service.getTodoResponse();
 	}
 	
-	@PostMapping
+	@PostMapping(value = "/create")
 	@ResponseBody
 	private TodoResponse createTask(@RequestBody TodoRequest request) {
 		
