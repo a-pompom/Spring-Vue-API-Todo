@@ -22,9 +22,22 @@ public class TaskDao extends BaseDao<Task> {
 	public List<Task> findAll() {
 		
 		QueryBuilder q = new QueryBuilder();
-		q.append("select * from taskList ");
+		q.append("select * from task_list ");
 		
 		return findResultList(q.createQuery(Task.class, getEm()));
+	}
+	
+	/**
+	 * タスクを削除
+	 * @param taskId 削除対象のID
+	 */
+	public void deleteTask(long taskId) {
+		
+		QueryBuilder q = new QueryBuilder();
+		q.append("delete from task_list ");
+		q.append(" where task_id = :taskId ").setParam("taskId", taskId);
+		
+		q.createQuery(Task.class, getEm()).executeUpdate();
 	}
 	
 }

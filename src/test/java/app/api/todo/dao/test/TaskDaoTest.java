@@ -42,10 +42,7 @@ public class TaskDaoTest {
 
 	@Autowired
 	private TaskDao taskDao;
-	
-//	public TaskDaoTest(TaskDao taskDao) {
-//		this.taskDao = taskDao;
-//	}
+
 	
 	// テストメソッド実行後の状態をデータベースに反映させるための処理
 	// 通常、更新系の処理はトランザクションがコミットされるタイミングでデータベースと同期化されるが、
@@ -54,14 +51,14 @@ public class TaskDaoTest {
 	void tearDown() {
 		taskDao.getEm().flush();
 	}
-//	@Test
-//	@DatabaseSetup(value = "/todo-api/setUp/")
-//	void DBからタスク一覧を取得できる() {
-//		
-//		int actual = taskDao.findAll().size();
-//		
-//		assertThat(actual, is(2));
-//	}
+	@Test
+	@DatabaseSetup(value = "/todo-api/setUp/")
+	void DBからタスク一覧を取得できる() {
+		
+		int actual = taskDao.findAll().size();
+		
+		assertThat(actual, is(2));
+	}
 	
 	@Test
 	@DatabaseSetup(value = "/todo-api/setUp/")
@@ -73,5 +70,26 @@ public class TaskDaoTest {
 		entity.setDone(true);
 		
 		taskDao.saveOrUpdate(entity);
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/todo-api/setUp/")
+	@ExpectedDatabase(value = "/todo-api/update/", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	void saveOrUpdateで既存タスクを更新できる() {
+		
+		Task entity = new Task();
+		entity.setTaskId(2L);
+		entity.setTaskName("test_task2_mod");
+		entity.setDone(true);
+		
+		taskDao.saveOrUpdate(entity);
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/todo-api/setUp/")
+	@ExpectedDatabase(value = "/todo-api/delete/", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	void deleteTaskで対象のタスクを削除できる() {
+		
+		taskDao.deleteTask(2L);
 	}
 }
