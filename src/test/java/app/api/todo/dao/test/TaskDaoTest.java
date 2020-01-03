@@ -16,8 +16,11 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 import app.api.todo.dao.TaskDao;
+import app.api.todo.entity.Task;
 import app.api.todo.main.ApiTodoApplication;
 import app.api.todo.test.util.CsvDataSetLoader;
 
@@ -51,12 +54,24 @@ public class TaskDaoTest {
 	void tearDown() {
 		taskDao.getEm().flush();
 	}
+//	@Test
+//	@DatabaseSetup(value = "/todo-api/setUp/")
+//	void DBからタスク一覧を取得できる() {
+//		
+//		int actual = taskDao.findAll().size();
+//		
+//		assertThat(actual, is(2));
+//	}
+	
 	@Test
 	@DatabaseSetup(value = "/todo-api/setUp/")
-	void DBからタスク一覧を取得できる() {
+	@ExpectedDatabase(value = "/todo-api/create/", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	void saveOrUpdateで新規タスクを登録できる() {
 		
-		int actual = taskDao.findAll().size();
+		Task entity = new Task();
+		entity.setTaskName("new-task");
+		entity.setDone(true);
 		
-		assertThat(actual, is(2));
+		taskDao.saveOrUpdate(entity);
 	}
 }

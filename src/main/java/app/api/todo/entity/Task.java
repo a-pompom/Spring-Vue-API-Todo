@@ -17,7 +17,7 @@ import lombok.Data;
  *
  */
 @Entity
-@Table(name = "taskList")
+@Table(name = "task_list")
 @Data
 public class Task extends BaseEntity implements Serializable{
 	

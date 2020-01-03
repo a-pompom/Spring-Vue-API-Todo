@@ -26,5 +26,5 @@ public class TaskDao extends BaseDao<Task> {
 		
 		return findResultList(q.createQuery(Task.class, getEm()));
 	}
-
+	
 }
