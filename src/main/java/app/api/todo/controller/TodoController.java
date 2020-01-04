@@ -31,6 +31,10 @@ public class TodoController {
 		this.service = service;
 	}
 	
+	/**
+	 * 初期処理 画面に表示するタスク一覧を取得
+	 * @return
+	 */
 	@GetMapping(value = "/")
 	@ResponseBody
 	private List<TodoResponse> init() {
@@ -38,6 +42,11 @@ public class TodoController {
 		return service.getTodoResponse();
 	}
 	
+	/**
+	 * タスクを新規作成
+	 * @param request 新規タスクを含んだリクエスト
+	 * @return メッセージ
+	 */
 	@PostMapping(value = "/create")
 	@ResponseBody
 	private TodoResponse createTask(@RequestBody TodoRequest request) {
@@ -50,11 +59,16 @@ public class TodoController {
 		return response;
 	}
 	
-	@PostMapping
+	/**
+	 * タスクを更新
+	 * @param request 更新対象のタスクを含んだリクエスト
+	 * @return メッセージ
+	 */
+	@PostMapping(value = "/update")
 	@ResponseBody
 	private TodoResponse updateTask(@RequestBody TodoRequest request) {
 		
-		service.createTask(request.getTask());
+		service.updateTask(request.getTask());
 		
 		TodoResponse response = new TodoResponse();
 		response.setMessage("task updated!");
@@ -62,11 +76,17 @@ public class TodoController {
 		return response;
 	}
 	
-	@GetMapping
+	/**
+	 * 対象のタスクを削除
+	 * @param taskId 削除対象のタスク
+	 * 
+	 * @return メッセージ
+	 */
+	@GetMapping(value = "delete/{taskId}")
 	@ResponseBody
-	private TodoResponse dleteTask(@PathVariable Long targetId) {
+	private TodoResponse dleteTask(@PathVariable Long taskId) {
 		
-		service.deleteTask(targetId);
+		service.deleteTask(taskId);
 		
 		TodoResponse response = new TodoResponse();
 		response.setMessage("task deleted!");

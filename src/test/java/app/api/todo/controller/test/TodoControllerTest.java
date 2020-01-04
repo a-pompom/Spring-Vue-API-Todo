@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +24,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
+import app.api.todo.dao.TaskDao;
 import app.api.todo.entity.Task;
 import app.api.todo.main.ApiTodoApplication;
 import app.api.todo.request.TodoRequest;
@@ -44,6 +48,14 @@ public class TodoControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	@Autowired
+	private TaskDao taskDao;
+	
+	@AfterEach
+	void tearDown() {
+		taskDao.getEm().flush();
+	}
+	
 	@Test
 	void init処理が走って200が返る() throws Exception {
 		
@@ -53,20 +65,26 @@ public class TodoControllerTest {
 	
 	@Test
 	@DatabaseSetup(value = "/todo-api/setUp/")
-	void init処理が走ってレスポンスとしてメッセージが返される() throws Exception {
+	void init処理が走ってレスポンスとしてタスク一覧が返される() throws Exception {
 		this.mockMvc.perform(get("/todo/"))
+		
+		// $[index]でリスト要素の指定した要素へアクセスが可能となる
+		// JsonPathはJavaでJSONを扱えるようにするためのライブラリ
 		.andExpect(jsonPath("$[0].taskId", is(1))) // $はJSONのルートを表す
 		.andExpect(jsonPath("$[0].taskName", is("test_task1")))
 		.andExpect(jsonPath("$[0].done", is(false)))
-		.andExpect(jsonPath("$[1].taskId", is(2))) // $はJSONのルートを表す
+		
+		.andExpect(jsonPath("$[1].taskId", is(2)))
 		.andExpect(jsonPath("$[1].taskName", is("test_task2")))
 		.andExpect(jsonPath("$[1].done", is(true)));
 	}
 	
 	@Test
 	@DatabaseSetup(value = "/todo-api/setUp/")
+	@ExpectedDatabase(value = "/todo-api/create/", assertionMode = DatabaseAssertionMode.NON_STRICT)
 	void create処理が走ってレスポンスとして成功メッセージが返される() throws Exception {
 		
+		// 新規タスク
 		Task task = new Task();
 		task.setTaskName("new-task");
 		task.setDone(true);
@@ -74,6 +92,7 @@ public class TodoControllerTest {
 		TodoRequest request = new TodoRequest();
 		request.setTask(task);
 		
+		// リクエストのボディに設定できるのはバイトの配列(JSON)のみなので、ObjectMapperでPOJO→JSON変換
 		ObjectMapper mapper = new ObjectMapper();
         byte[] jsonRequest = mapper.writeValueAsBytes(request);
 		
@@ -83,6 +102,37 @@ public class TodoControllerTest {
 				.andDo(print())
 				.andExpect(status().isOk());
 				
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/todo-api/setUp/")
+	@ExpectedDatabase(value = "/todo-api/delete/", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	void delete処理でタスクが削除される() throws Exception {
+		
+		this.mockMvc.perform(get("/todo/delete/2"));
+		
+	}
+	
+	@Test
+	@DatabaseSetup(value = "/todo-api/setUp/")
+	@ExpectedDatabase(value = "/todo-api/update/", assertionMode = DatabaseAssertionMode.NON_STRICT)
+	void update処理でタスクが更新されレスポンスとして成功メッセージが返される() throws Exception {
+		
+		Task task = new Task();
+		task.setTaskId(2L);
+		task.setTaskName("test_task2_mod");
+		task.setDone(true);
+		
+		TodoRequest request = new TodoRequest();
+		request.setTask(task);
+		
+		ObjectMapper mapper = new ObjectMapper();
+        byte[] jsonRequest = mapper.writeValueAsBytes(request);
+		
+		this.mockMvc.perform(post("/todo/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonRequest))
+				.andExpect(status().isOk());
 	}
 
 }
