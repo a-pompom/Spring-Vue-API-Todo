@@ -7,6 +7,67 @@
     <link href="../style.css" rel="stylesheet">
 </head>
 <body>
-    <p>こんにちは、世界</p>
+        
+    <header class="todo-header">
+
+        <h1 class="todo-header__title">Todo</h1>
+
+        <div class="todo-header__search">
+
+            <label for="searchTodo" class="search-text">
+                <input type="text" placeholder="&nbsp;" id="searchTodo">
+                <span class="search-text__placeholder">Search</span>
+                <span class="search-text__border"></span>
+            </label>
+        </div>
+
+    </header>
+
+    <main class="todo-list">
+
+        <div class="task-add">
+
+            <label for="addTodo" class="task-text taks-add__input">
+                <input type="text" placeholder="&nbsp;" id="addTodo">
+                <span class="task-text__placeholder">Search</span>
+                <span class="task-text__border"></span>
+            </label>
+            <button class="task-add__button button--primary">
+                ADD
+            </button>
+        </div>
+
+
+        <div class="todo-items">
+            <h3 class="todo-items__header header--primary">
+                Do
+            </h3>
+
+            <ul class="todo-items__list">
+                <li class="todo-items__item">
+                    task1
+                </li>
+                <li class="todo-items__item">
+                    task2
+                </li>
+            </ul>
+        </div>
+
+        <div class="todo-items">
+            <h3 class="todo-items__header header--secondary">
+                Done
+            </h3>
+
+            <ul class="todo-items__list">
+                <li class="todo-items__item">
+                    task1
+                </li>
+                <li class="todo-items__item">
+                    task2
+                </li>
+            </ul>
+        </div>
+
+    </main>
 </body>
 </html>
