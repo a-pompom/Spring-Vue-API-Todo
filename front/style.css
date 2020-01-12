@@ -57,5 +57,169 @@ textarea {
 )
 @parameter $fontSize {number} 文字の大きさ
 */
+.button--primary {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer; }
+
+.button--primary {
+  transition: .4s; }
+  .button--primary:hover {
+    color: #fff; }
+
+.button--primary {
+  background-color: #F4F3F6;
+  color: #4893C6; }
+  .button--primary:hover {
+    background-color: #4893C6; }
+
+.todo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 56px;
+  color: #FFFFFF;
+  background-color: #4893C6; }
+  .todo-header__title {
+    font-size: 2.4rem;
+    padding-top: 5px;
+    padding-left: 5%; }
+  .todo-header__search {
+    padding-right: 4%;
+    padding-top: 10px; }
+
+.todo-list {
+  width: 100%;
+  height: 90%; }
+  .todo-list .task-add {
+    width: 80%;
+    height: 150px;
+    padding-bottom: 10px;
+    margin: 20px auto;
+    border-bottom: 1px solid #C8CCD4; }
+    .todo-list .task-add__input {
+      display: block;
+      margin: 10px auto; }
+    .todo-list .task-add__button {
+      display: block;
+      width: 80px;
+      height: 48px;
+      margin: 20px auto; }
+  .todo-list .task-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    height: auto;
+    margin: 20px auto; }
+    .todo-list .task-list .todo-items {
+      width: 40%;
+      height: 52px; }
+      .todo-list .task-list .todo-items__header {
+        padding-left: 10px; }
+      .todo-list .task-list .todo-items__item {
+        padding-left: 10px;
+        margin-top: 5px; }
+
+.search-text {
+  width: 150px;
+  height: 24px;
+  display: inline-block;
+  position: relative;
+  background-color: #FFFFFF; }
+  .search-text input, .search-text textarea {
+    width: 100%;
+    height: 24px;
+    display: inline-block;
+    font-size: 1rem;
+    padding: 12px 0;
+    border-bottom: 2px solid #C8CCD4;
+    color: #223254;
+    transition: all .15s ease; }
+    .search-text input:hover, .search-text textarea:hover {
+      background-color: rgba(34, 50, 84, 0.03); }
+    .search-text input:not(:placeholder-shown) ~ span[class$="__placeholder"], .search-text textarea:not(:placeholder-shown) ~ span[class$="__placeholder"] {
+      color: #C8CCD4;
+      transform: translateY(-13.2px) scale(0.85); }
+    .search-text input:focus ~ span[class$="__placeholder"], .search-text textarea:focus ~ span[class$="__placeholder"] {
+      color: #C8CCD4;
+      transform: translateY(-13.2px) scale(0.85); }
+      .search-text input:focus ~ span[class$="__placeholder"] + span[class$="__border"], .search-text textarea:focus ~ span[class$="__placeholder"] + span[class$="__border"] {
+        transform: scaleX(1); }
+  .search-text__placeholder {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    color: #C8CCD4;
+    transform-origin: 0 0;
+    transition: all 0.2s ease; }
+  .search-text__border {
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #C8CCD4;
+    transform: scaleX(0);
+    transform-origin: 0 0;
+    transition: all .15s ease; }
+
+.task-text {
+  width: 65%;
+  height: 48px;
+  display: inline-block;
+  position: relative; }
+  .task-text input, .task-text textarea {
+    width: 100%;
+    height: 48px;
+    display: inline-block;
+    font-size: 1rem;
+    padding: 12px 0;
+    border-bottom: 2px solid #C8CCD4;
+    color: #223254;
+    transition: all .15s ease; }
+    .task-text input:hover, .task-text textarea:hover {
+      background-color: rgba(34, 50, 84, 0.03); }
+    .task-text input:not(:placeholder-shown) ~ span[class$="__placeholder"], .task-text textarea:not(:placeholder-shown) ~ span[class$="__placeholder"] {
+      color: #4893C6;
+      transform: translateY(-26.4px) scale(0.85); }
+    .task-text input:focus ~ span[class$="__placeholder"], .task-text textarea:focus ~ span[class$="__placeholder"] {
+      color: #4893C6;
+      transform: translateY(-26.4px) scale(0.85); }
+      .task-text input:focus ~ span[class$="__placeholder"] + span[class$="__border"], .task-text textarea:focus ~ span[class$="__placeholder"] + span[class$="__border"] {
+        transform: scaleX(1); }
+  .task-text__placeholder {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    color: #C8CCD4;
+    transform-origin: 0 0;
+    transition: all 0.2s ease; }
+  .task-text__border {
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #4893C6;
+    transform: scaleX(0);
+    transform-origin: 0 0;
+    transition: all .15s ease; }
+
+.todo-items__header {
+  font-size: 1.6rem;
+  color: #FFFFFF; }
+.todo-items__item {
+  font-size: 1.2rem;
+  border-bottom: 1px solid #C8CCD4; }
+
+.header--primary {
+  background-color: #4893C6; }
+
+.header--secondary {
+  background-color: #CB72AA; }
 
 /*# sourceMappingURL=style.css.map */

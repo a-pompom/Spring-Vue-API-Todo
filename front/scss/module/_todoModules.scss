@@ -1,0 +1,40 @@
+.search-text {
+
+    $color: ("textColor": $darkest, "accentColor":$light, "nonActiveColor": $light);
+	$scale: ("perWidth": 150px, "height": 24px);
+    @include input-simple($color, $scale, 1.0rem);
+
+    background-color: $white;
+}
+
+.task-text {
+    $color: ("textColor": $darkest, "accentColor":$accent-strong, "nonActiveColor": $light);
+	$scale: ("perWidth": 65%, "height": 48px);
+    @include input-simple($color, $scale, 1.0rem);
+}
+
+.todo-items {
+
+    &__header {
+
+        font-size: 1.6rem;
+
+        color: $white;
+    }
+
+    &__item {
+        font-size: 1.2rem;
+
+        border-bottom: 1px solid $light;
+    }
+}
+
+.header--primary {
+
+    background-color: $accent-strong;
+}
+
+.header--secondary {
+
+    background-color: $reverse-accent;
+}

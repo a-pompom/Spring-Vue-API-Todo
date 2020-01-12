@@ -1,0 +1,34 @@
+%button {
+	
+	position: relative;
+	display: inline-block;
+	
+	font-weight: bold;
+	text-decoration: none;
+	
+	cursor: pointer;
+		
+}
+
+%button--simple {
+	
+	@extend %button;
+	
+	transition: .4s;
+	
+	&:hover {
+		color: #fff;
+	}
+	
+}
+
+.button--primary {
+	@extend %button--simple;
+
+	background-color: $lightest; 
+	color: $accent-strong;
+
+	&:hover {
+		background-color: $accent-strong;
+	}
+}
