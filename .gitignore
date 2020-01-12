@@ -68,3 +68,5 @@ buildNumber.properties
 .mvn
 mvnw
 mvnw.cmd
+*.scssc
+*.map

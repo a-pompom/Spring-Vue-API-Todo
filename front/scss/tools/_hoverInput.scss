@@ -1,0 +1,129 @@
+/*
+下線のみを持つシンプルなテキスト入力
+フォーカスでプレースホルダが移動し、アクティブになったことを表すために
+下線の色が変化する
+@parameter $color {map} (
+	textColor: 入力テキストの色
+	accentColor: アクティブ時にボーダー・プレースホルダに付与される色　
+	nonActiveColor: デフォルドで表示される色
+)
+@parameter $scale {map} (
+	perWidth: 入力要素の幅 パーセント形式で記述
+	height: 入力要素の高さ
+)
+@parameter $fontSize {number} 文字の大きさ
+*/
+@mixin input-simple($color, $scale, $fontSize) {
+	
+	$inputHeight: map-get($scale, "height");
+	
+	width: map-get($scale, "perWidth");
+	height: $inputHeight;
+	
+	display: inline-block;
+	position: relative;
+	
+	// 入力欄
+	& input, textarea {
+		width: 100%;
+		height: $inputHeight;
+		
+		display: inline-block;
+		
+		font-size: $fontSize;
+		
+		padding: 12px 0;
+		border-bottom: 2px solid map-get($color, "nonActiveColor"); // 非フォーカス時
+		
+		color: map-get($color, "textColor");
+
+		transition: all .15s ease;
+		
+		&:hover {
+			background-color: rgba(map-get($color, "textColor"), .03);
+		}
+		
+		// 文字が入力されていない場合、プレースホルダは入力文字と重ならないよう左上固定とする
+		&:not(:placeholder-shown) {
+			~ span[class$="__placeholder"] {
+				color: map-get($color, "accentColor");
+				transform: translateY(calcPlaceholderMove($inputHeight)) scale(.85);
+			}
+		}
+		
+		// プレースホルダを左上へ移動させ、更にアクティブになったことを表すため、下線の色が変化
+		&:focus {
+			~ span[class$="__placeholder"] {
+				color: map-get($color, "accentColor");
+				transform: translateY(calcPlaceholderMove($inputHeight)) scale(.85);
+				
+				+ span[class$="__border"] {
+				transform: scaleX(1);
+				}
+			}
+		}
+	}
+	
+	// フォーカスされるまでは通常のプレースホルダと同様入力欄端にグレーで配置
+	&__placeholder {
+		position: absolute;
+		top: calcPlaceholderTop($inputHeight, $fontSize); // 中心に配置
+		left: 0;
+		
+		color: map-get($color, "nonActiveColor");
+		
+		transform-origin: 0 0;
+		transition: all calcPlaceholderVelocity($inputHeight) ease;
+	}
+	
+	// input自体のボーダーと重ね合わせ、フォーカス時には横方向から描画/消去されることで
+	// アクティブ・非アクティブを可視化
+	&__border {
+		width: 100%;
+		height: 2px;
+		
+		position: absolute;
+		bottom: 0;
+		left: 0;
+
+		background-color: map-get($color, "accentColor");
+
+		transform: scaleX(0);
+		transform-origin: 0 0;
+		transition: all .15s ease;
+	}
+}
+
+// プレースホルダの移動距離を算出する
+// プレースホルダはinput要素の中間に位置しており、 (inputの高さ / 2) + border分程度移動することで
+// inputの左上に移動できる。よって、今回は係数を「0.55」とした
+@function calcPlaceholderMove($inputHeight) {
+	@return -1 * $inputHeight * 0.55; // 上方向に要素の中心からの高さ + Δ
+}
+
+// プレースホルダのデフォルト位置を算出する
+// プレースホルダは入力要素の中心に配置したいので、
+// 入力要素の高さ、文字の大きさをもとに導出
+@function calcPlaceholderTop($inputHeight, $remFontSize) {
+	$fontSize: parseInt($remFontSize) * 16px;
+	@return ($inputHeight / 2) - ($fontSize / 2);
+}
+// remをpxに変換するため、remを数値に変換する
+@function parseInt($n) { 
+  @return $n / ($n * 0 + 1);
+}
+
+// プレースホルダの移動速度を導出する
+// 入力エリアはそこまで大きくなるようなことはそう起こらない、かつ移動速度があまりにも遅いとUXを欠くので、
+// 高さによるブレークポイントを設定して段階的に速度を落としていく
+@function calcPlaceholderVelocity($inputHeight) {
+	$baseVelocity: 0.2s;
+	@if ($inputHeight < 100) {
+		@return $baseVelocity;
+	}
+	@if ($inputHeight < 300) {
+		@return $baseVelocity + 0.3s;
+	}
+	
+	@return $baseVelocity + 0.5s;
+}

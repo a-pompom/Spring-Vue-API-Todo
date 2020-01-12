@@ -1,0 +1,61 @@
+@charset "UTF-8";
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-size: 90%;
+  font-family: 'Noto Sans JP', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #4d464f; }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+ul {
+  list-style: none; }
+
+p {
+  line-height: 1rem; }
+
+a {
+  display: block;
+  text-decoration: none;
+  color: #4d464f; }
+  a:checked {
+    color: #4d464f; }
+
+input[type="text"], input[type="password"] {
+  -webkit-appearance: none;
+  border: 0; }
+  input[type="text"]:focus, input[type="password"]:focus {
+    background: none;
+    outline: none; }
+
+textarea {
+  -webkit-appearance: none;
+  border: 0;
+  resize: none; }
+  textarea:focus {
+    background: none;
+    outline: none; }
+
+/*
+下線のみを持つシンプルなテキスト入力
+フォーカスでプレースホルダが移動し、アクティブになったことを表すために
+下線の色が変化する
+@parameter $color {map} (
+	textColor: 入力テキストの色
+	accentColor: アクティブ時にボーダー・プレースホルダに付与される色　
+	nonActiveColor: デフォルドで表示される色
+)
+@parameter $scale {map} (
+	perWidth: 入力要素の幅 パーセント形式で記述
+	height: 入力要素の高さ
+)
+@parameter $fontSize {number} 文字の大きさ
+*/
+
+/*# sourceMappingURL=style.css.map */
