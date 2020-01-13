@@ -7,68 +7,70 @@
     <link href="../style.css" rel="stylesheet">
 </head>
 <body>
+
+    <div id="app">
+
+        <header class="todo-header">
+
+            <h1 class="todo-header__title">Todo</h1>
+
+            <div class="todo-header__search">
+
+                <label for="searchTodo" class="search-text">
+                    <input type="text" placeholder=" " id="searchTodo">
+                    <span class="search-text__placeholder">Search</span>
+                    <span class="search-text__border"></span>
+                </label>
+            </div>
+
+        </header>
+
+        <main class="todo-list">
+
+            <div class="task-add">
+
+                <label for="addTodo" class="task-add__input task-text">
+                    <input type="text" v-model="newTask" placeholder=" " id="addTodo">
+                    <span class="task-text__placeholder">New Task</span>
+                    <span class="task-text__border"></span>
+                </label>
+                <button v-on:click="addTask" class="task-add__button button--primary">
+                    ADD
+                </button>
+            </div>
+
+            <div class="task-list">
+                <div class="todo-items">
+                    <h3 class="todo-items__header header--primary">
+                        Do
+                    </h3>
+
+                    <ul v-for="doItem in doList" class="todo-items__list">
+                        <li v-on:click="doneTask(doItem)" class="todo-items__item">
+                            {{ doItem.taskName }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="todo-items">
+                    <h3 class="todo-items__header header--secondary">
+                        Done
+                    </h3>
+
+                    <ul v-for="doneItem in doneList" class="todo-items__list">
+                        <li class="todo-items__item">
+                            {{ doneItem.taskName }}
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
         
-    <header class="todo-header">
-
-        <h1 class="todo-header__title">Todo</h1>
-
-        <div class="todo-header__search">
-
-            <label for="searchTodo" class="search-text">
-                <input type="text" placeholder="&nbsp;" id="searchTodo">
-                <span class="search-text__placeholder">Search</span>
-                <span class="search-text__border"></span>
-            </label>
-        </div>
-
-    </header>
-
-    <main class="todo-list">
-
-        <div class="task-add">
-
-            <label for="addTodo" class="task-add__input task-text">
-                <input type="text" placeholder="&nbsp;" id="addTodo">
-                <span class="task-text__placeholder">New Task</span>
-                <span class="task-text__border"></span>
-            </label>
-            <button class="task-add__button button--primary">
-                ADD
-            </button>
-        </div>
-
-        <div class="task-list">
-            <div class="todo-items">
-                <h3 class="todo-items__header header--primary">
-                    Do
-                </h3>
-
-                <ul class="todo-items__list">
-                    <li class="todo-items__item">
-                        task1
-                    </li>
-                    <li class="todo-items__item">
-                        task2
-                    </li>
-                </ul>
-            </div>
-
-            <div class="todo-items">
-                <h3 class="todo-items__header header--secondary">
-                    Done
-                </h3>
-
-                <ul class="todo-items__list">
-                    <li class="todo-items__item">
-                        task1
-                    </li>
-                    <li class="todo-items__item">
-                        task2
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </main>
 </body>
+<script type="module" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script type="module" src="../js/script.js"></script>
 </html>

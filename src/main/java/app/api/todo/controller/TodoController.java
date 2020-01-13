@@ -3,7 +3,6 @@ package app.api.todo.controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,6 @@ import app.api.todo.service.TaskService;
  */
 @Controller
 @RequestMapping(value = "/todo")
-@CrossOrigin(origins = "http://localhost:8080")
 public class TodoController {
 	
 	private TaskService service;
@@ -51,10 +49,11 @@ public class TodoController {
 	@ResponseBody
 	private TodoResponse createTask(@RequestBody TodoRequest request) {
 		
-		service.createTask(request.getTask());
+		Long taskId = service.createTask(request.getTask());
 		
 		TodoResponse response = new TodoResponse();
 		response.setMessage("task created!");
+		response.setTaskId(taskId);
 		
 		return response;
 	}

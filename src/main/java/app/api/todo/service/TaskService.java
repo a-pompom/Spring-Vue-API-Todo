@@ -36,9 +36,9 @@ public class TaskService {
 	 * @param newTask 新規作成対象のタスクEntity
 	 */
 	@Transactional
-	public void createTask(Task newTask) {
+	public Long createTask(Task newTask) {
 		
-		taskDao.saveOrUpdate(newTask);
+		return taskDao.saveOrUpdate(newTask).getTaskId();
 	}
 	
 	/**
